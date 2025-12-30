@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GrantReady Platform | OpenGrantStack</title>
+
+<style>
+:root {
+  --bg: #0b0f1a;
+  --card: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.12);
+  --text: #eaeaf0;
+  --muted: #9ca3af;
+  --glow: #7c9cff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background:
+    radial-gradient(circle at top, #1b2244, transparent 60%),
+    var(--bg);
+  color: var(--text);
+}
+
+header {
+  padding: 5rem 1.5rem 3rem;
+  text-align: center;
+}
+
+header h1 {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #9aa9ff, #7c9cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+header p {
+  max-width: 680px;
+  margin: 0 auto;
+  color: var(--muted);
+}
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 2rem 1.5rem 5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.6rem;
+  position: relative;
+  overflow: hidden;
+  transform: translateY(40px);
+  opacity: 0;
+  transition: transform .6s ease, opacity .6s ease, box-shadow .4s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 16px;
+  background: linear-gradient(120deg, transparent, var(--glow), transparent);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+
+.card:hover {
+  box-shadow: 0 0 40px rgba(124,156,255,.25);
+  transform: translateY(-6px);
+}
+
+.card:hover::before {
+  opacity: .35;
+}
+
+.card.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.card h2 {
+  margin: 0 0 .5rem;
+  font-size: 1.3rem;
+}
+
+.card p {
+  font-size: .95rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.card a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #9aa9ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: .85rem;
+  color: var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>GrantReady Platform</h1>
+  <p>
+    A modular, audit-ready grant infrastructure built by OpenGrantStack —
+    cloud services, SaaS workflows, analytics, ledgers, and docs that actually make sense.
+  </p>
+</header>
+
+<main>
+  <section class="card">
+    <h2>GrantReady Docs</h2>
+    <p>Documentation, schemas, compliance templates, and governance standards for the GrantReady ecosystem.</p>
+    <a href="https://github.com/OpenGrantStack/GrantReady-Docs" target="_blank">View Repo →</a>
+  </section>
+
+  <section class="card">
+    <h2>GrantReady Cloud</h2>
+    <p>Core APIs, SDKs, and backend services powering secure grant workflows and integrations.</p>
+    <a href="https://github.com/OpenGrantStack/GrantReady-cloud" target="_blank">View Repo →</a>
+  </section>
+
+  <section class="card">
+    <h2>GrantReady Hub (SaaS)</h2>
+    <p>Central SaaS layer for teams, approvals, grant lifecycle management, and collaboration.</p>
+    <a href="https://github.com/OpenGrantStack/GrantReady-hub-SaaS" target="_blank">View Repo →</a>
+  </section>
+
+  <section class="card">
+    <h2>GrantReady Analytics</h2>
+    <p>Insights, dashboards, and performance intelligence across grant programs.</p>
+    <a href="https://github.com/OpenGrantStack/GrantReady-Analytics" target="_blank">View Repo →</a>
+  </section>
+
+  <section class="card">
+    <h2>GrantReady Ledger</h2>
+    <p>Immutable audit trails and financial record-keeping for transparent grant disbursements.</p>
+    <a href="https://github.com/OpenGrantStack/GrantReady-Ledger" target="_blank">View Repo →</a>
+  </section>
+</main>
+
+<footer>
+  © OpenGrantStack — Built for accountability, not bureaucracy.
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+},{ threshold: 0.15 });
+
+document.querySelectorAll('.card').forEach(card => observer.observe(card));
+</script>
+
+</body>
+</html>
