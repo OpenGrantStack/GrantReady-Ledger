@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LedgerEntry",
+  "description": "A single entry in the grant disbursement ledger",
+  "type": "object",
+  "required": [
+    "id",
+    "timestamp",
+    "grantCycleId",
+    "transactionId",
+    "account",
+    "amount",
+    "currency",
+    "entryType",
+    "description",
+    "hash",
+    "signatures"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this ledger entry"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of entry creation"
+    },
+    "grantCycleId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Identifier of the grant cycle this entry belongs to"
+    },
+    "transactionId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Identifier of the parent transaction"
+    },
+    "account": {
+      "type": "object",
+      "description": "Account reference information",
+      "required": ["id", "type", "owner"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique account identifier"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["FUNDING", "DISBURSEMENT", "BENEFICIARY", "ADMINISTRATIVE", "RESERVE"],
+          "description": "Type of account"
+        },
+        "owner": {
+          "type": "object",
+          "description": "Account owner information",
+          "required": ["id", "type"],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Owner identifier"
+            },
+            "type": {
+              "type": "string",
+              "enum": ["ORGANIZATION", "INDIVIDUAL", "SYSTEM"],
+              "description": "Type of owner"
+            },
+            "name": {
+              "type": "string",
+              "description": "Human-readable owner name"
+            }
+          }
+        }
+      }
+    },
+    "amount": {
+      "type": "string",
+      "pattern": "^-?\\d+(\\.\\d{1,2})?$",
+      "description": "Decimal amount, positive for credits, negative for debits"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code"
+    },
+    "entryType": {
+      "type": "string",
+      "enum": ["DEBIT", "CREDIT", "ADJUSTMENT"],
+      "description": "Type of ledger entry"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Human-readable description of the entry"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional context-specific data",
+      "additionalProperties": true
+    },
+    "previousHash": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "SHA-256 hash of the previous ledger entry"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "SHA-256 hash of this entry's content"
+    },
+    "signatures": {
+      "type": "array",
+      "description": "Digital signatures authorizing this entry",
+      "items": {
+        "type": "object",
+        "required": ["signer", "signature", "timestamp"],
+        "properties": {
+          "signer": {
+            "type": "string",
+            "description": "Public key or identifier of the signer"
+          },
+          "signature": {
+            "type": "string",
+            "description": "Digital signature value"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the signature was created"
+          },
+          "signatureType": {
+            "type": "string",
+            "enum": ["ECDSA", "EdDSA", "RSA"],
+            "description": "Algorithm used for signature"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "proof": {
+      "type": "object",
+      "description": "Zero-knowledge proof for privacy-sensitive data",
+      "properties": {
+        "proofType": {
+          "type": "string",
+          "enum": ["ZK_SNARK", "ZK_STARK", "BULLETPROOFS"]
+        },
+        "proofData": {
+          "type": "string",
+          "description": "Serialized proof data"
+        },
+        "verificationKey": {
+          "type": "string",
+          "description": "Key to verify the proof"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "CONFIRMED", "REJECTED", "CANCELLED"],
+      "default": "PENDING",
+      "description": "Current status of the entry"
+    }
+  },
+  "additionalProperties": false
+}
