@@ -38,3 +38,78 @@ interface LedgerEntry {
   signatures: Signature[];      // Required signatures
   proof?: ZeroKnowledgeProof;   // Optional ZK proof for sensitive data
 }
+```
+
+Account Types
+
+1. Funding Account: Source of grant funds
+2. Disbursement Account: Intermediate holding account
+3. Beneficiary Account: Recipient account
+4. Administrative Account: Overhead and fees
+5. Reserve Account: Contingency funds
+
+Transaction Types
+
+1. Allocation: Moving funds from funding to disbursement account
+2. Disbursement: Transfer to beneficiary
+3. Return: Funds returned from beneficiary
+4. Adjustment: Correction of previous entries
+5. Closure: Final settlement of grant cycle
+
+Balancing Rules
+
+Every transaction must satisfy:
+
+```
+Σ(DEBIT entries) + Σ(CREDIT entries) = 0
+```
+
+Privacy Controls
+
+Public Data
+
+· Transaction existence
+· Timestamps
+· Account references (pseudonymous)
+· Amounts (within ranges for large transactions)
+· Cryptographic proofs
+
+Private Data
+
+· Beneficiary personal information
+· Exact amounts for sensitive grants
+· Internal memos
+· Contact information
+
+Zero-Knowledge Proofs
+
+For privacy-sensitive operations, ZK proofs verify:
+
+· Amount is within approved range
+· Recipient is eligible
+· Transaction follows policy rules
+  Without revealing underlying data.
+
+Immutability Guarantees
+
+1. Chained Hashing: Each entry references previous entry's hash
+2. Blockchain Anchoring: Periodic merkle roots stored on-chain
+3. Multi-Signature: Critical entries require multiple signatures
+4. Time-Stamping: External trusted timestamp service
+
+Consensus Model
+
+The ledger uses a hybrid consensus approach:
+
+On-Chain Consensus
+
+· Determined by underlying blockchain
+· Ethereum: Proof of Stake
+· Hyperledger: Practical Byzantine Fault Tolerance
+
+Off-Chain Validation
+
+· Business logic validation
+· Policy compliance checks
+· Multi-signature requirements
+· Audit committee approval
