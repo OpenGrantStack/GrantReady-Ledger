@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Transaction",
+  "description": "A complete transaction containing multiple ledger entries",
+  "type": "object",
+  "required": [
+    "id",
+    "timestamp",
+    "grantCycleId",
+    "transactionType",
+    "entries",
+    "totalAmount",
+    "currency",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique transaction identifier"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the transaction was created"
+    },
+    "grantCycleId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Associated grant cycle"
+    },
+    "transactionType": {
+      "type": "string",
+      "enum": ["ALLOCATION", "DISBURSEMENT", "RETURN", "ADJUSTMENT", "CLOSURE"],
+      "description": "Type of transaction"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Human-readable transaction description"
+    },
+    "entries": {
+      "type": "array",
+      "description": "Ledger entries comprising this transaction",
+      "items": {
+        "$ref": "ledger-entry.json"
+      },
+      "minItems": 2
+    },
+    "totalAmount": {
+      "type": "string",
+      "pattern": "^\\d+(\\.\\d{1,2})?$",
+      "description": "Total absolute value of the transaction"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "Transaction currency"
+    },
+    "policyId": {
+      "type": "string",
+      "description": "Identifier of the policy governing this transaction"
+    },
+    "requiredSignatures": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 1,
+      "description": "Number of signatures required"
+    },
+    "receivedSignatures": {
+      "type": "array",
+      "description": "Signatures received so far",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "PENDING_APPROVAL", "APPROVED", "EXECUTED", "REJECTED", "CANCELLED"],
+      "default": "DRAFT",
+      "description": "Current transaction status"
+    },
+    "executionTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the transaction was executed"
+    },
+    "blockchainMetadata": {
+      "type": "object",
+      "description": "Blockchain-specific metadata",
+      "properties": {
+        "blockchain": {
+          "type": "string",
+          "enum": ["ETHEREUM", "HYPERLEDGER", "ZKSYNC", "OTHER"]
+        },
+        "transactionHash": {
+          "type": "string",
+          "description": "On-chain transaction hash"
+        },
+        "blockNumber": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "gasUsed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "confirmations": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "auditTrail": {
+      "type": "array",
+      "description": "History of status changes and approvals",
+      "items": {
+        "type": "object",
+        "required": ["timestamp", "action", "actor"],
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "action": {
+            "type": "string"
+          },
+          "actor": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
