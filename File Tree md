@@ -1,0 +1,49 @@
+grantready-ledger/
+├── LICENSE
+├── README.md
+├── .gitignore
+├── package.json
+├── tsconfig.json
+├── .env.example
+├── .eslintrc.json
+├── .prettierrc
+├── docs/
+│   ├── ledger-model.md
+│   ├── auditability.md
+│   └── threat-model.md
+├── schemas/
+│   ├── ledger-entry.json
+│   └── transaction.json
+├── src/
+│   ├── index.ts
+│   ├── config/
+│   │   └── index.ts
+│   ├── ledger/
+│   │   ├── index.ts
+│   │   ├── core.ts
+│   │   ├── blockchain-adapters.ts
+│   │   └── types.ts
+│   ├── transactions/
+│   │   ├── index.ts
+│   │   ├── processor.ts
+│   │   ├── types.ts
+│   │   └── validation.ts
+│   ├── verification/
+│   │   ├── index.ts
+│   │   ├── auditor.ts
+│   │   ├── proofs.ts
+│   │   └── types.ts
+│   ├── api/
+│   │   ├── index.ts
+│   │   ├── rest.ts
+│   │   └── websocket.ts
+│   ├── storage/
+│   │   ├── index.ts
+│   │   └── providers.ts
+│   └── utils/
+│       ├── crypto.ts
+│       └── logger.ts
+└── tests/
+    ├── ledger.test.ts
+    ├── transactions.test.ts
+    └── verification.test.ts
