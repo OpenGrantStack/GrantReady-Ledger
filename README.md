@@ -89,5 +89,5 @@ Support
 
 · Documentation: docs.grantready.com
 · Community: GitHub Discussions
-· Commercial Support: support@grantready.com
+· Commercial Support: support@opengrantstack.com
 # GrantReady-Ledger
